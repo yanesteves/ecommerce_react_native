@@ -11,43 +11,57 @@ import { ProductPage } from './src/pages/Products/ProductsPage.jsx';
 import './gesture-handler.native';
 import { ThemeProvider } from './src/context/ThemeContext.jsx';
 import { CartProvider } from './src/context/CartContext.jsx';
+import { AuthProvider, useAuth } from './src/context/AuthContext.jsx';
+import { Login } from './src/pages/Login/Login.jsx';
 // import { CartProvider } from './src/context/CartContext.jsx';
 
 const Drawer = createDrawerNavigator();
 
 export default function App() {
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
-      <ThemeProvider>
-        <CartProvider>
-          <NavigationContainer>
-            <StatusBar
-              backgroundColor="transparent"
-              translucent={true}
-              barStyle="dark-content" // Define o estilo do conteúdo da StatusBar (claro ou escuro)
-            />
-
-            <Drawer.Navigator initialRouteName="Products">
-              <Drawer.Screen
-                name="E-Commerce"
-                component={HomePage}
-                options={{
-                  headerRight: () => <CartIconWithNavigation />,
-                  title: 'E-Commerce',
-                }} />
-              <Drawer.Screen name="Cart" component={CartPage} />
-              <Drawer.Screen name="Products" component={ProductPage} />
-            </Drawer.Navigator>
-
-          </NavigationContainer>
-        </CartProvider>
-      </ThemeProvider>
-
+      <AuthProvider>
+        <ThemeProvider>
+          <CartProvider>
+            <NavigationContainer>
+              <StatusBar
+                backgroundColor="transparent"
+                translucent={true}
+                barStyle="dark-content" // Define o estilo do conteúdo da StatusBar (claro ou escuro)
+              />
+              <Navigation />
+            </NavigationContainer>
+          </CartProvider>
+        </ThemeProvider>
+      </AuthProvider>
     </SafeAreaView>
 
   )
 }
 
+const Navigation = () => {
+
+  const { user } = useAuth()
+  // const user = true;
+
+  return (
+    <>
+      {user ?
+        <Drawer.Navigator initialRouteName="Products">
+          <Drawer.Screen
+            name="E-Commerce"
+            component={HomePage}
+            options={{
+              headerRight: () => <CartIconWithNavigation />,
+              title: 'E-Commerce',
+            }} />
+          <Drawer.Screen name="Cart" component={CartPage} />
+          <Drawer.Screen name="Products" component={ProductPage} />
+        </Drawer.Navigator> : <Login />}
+    </>
+  )
+}
 
 const CartIconWithNavigation = () => {
   const navigation = useNavigation();

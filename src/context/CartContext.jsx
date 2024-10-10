@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 
 // Criacao do contexto
 const CartContext = createContext()
@@ -7,6 +7,14 @@ const CartContext = createContext()
 export const CartProvider = ({ children }) => {
     const [items, setItems] = useState([])
 
+    // Caso for chamar uma API para recuperar o carrinho do usuario salvo no banco de dados
+    useEffect(() => {
+        async function getData() {
+            // await fetch()
+        }
+        getData()
+    }, [])
+    
     // Numero de itens no carrinho
     function getTotalItems() {
         return items.length // [1, 2, 3].length => 3

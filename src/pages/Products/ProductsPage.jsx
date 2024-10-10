@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, FlatList, Image, Button, StyleSheet } from 'react-native';
+import { useAuth } from '../../context/AuthContext';
 
 const products = [
   { id: '1', name: 'Camisa', price: 29.99, image: 'https://via.placeholder.com/150' },
@@ -10,6 +11,7 @@ const products = [
 ];
 
 export const ProductPage = () => {
+  const { logout } = useAuth()
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredProducts, setFilteredProducts] = useState(products);
 
@@ -36,6 +38,7 @@ export const ProductPage = () => {
 
   return (
     <View style={styles.container}>
+      <Button title="Logout" onPress={logout}/>
       <TextInput
         style={styles.searchInput}
         placeholder="Buscar produto..."

@@ -17,15 +17,15 @@ export const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
 
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState(false)   
 
-    function login(username, password) {
+    function login(username, password) {   
         const fakeUser = { username: username, nome: 'Yan', foto: 'https://'}
         setUser(fakeUser)
     }
 
     function logout() {
-        setUser(null)
+        setUser(false)
     }
 
     return (
