@@ -3,11 +3,15 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { SafeAreaView, StyleSheet, StatusBar, TouchableOpacity, Text } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/Ionicons'; // Importando o ícone do carrinho
-import { ThemeProvider } from './src/context/ThemeContext.jsx';
+// import { ThemeProvider } from './src/context/ThemeContext.jsx';
 import { HomePage } from './src/pages/Home/Home.jsx';
 import { CartPage } from './src/pages/Cart/Cart.jsx';
+import { ProductPage } from './src/pages/Products/ProductsPage.jsx';
 
 import './gesture-handler.native';
+import { ThemeProvider } from './src/context/ThemeContext.jsx';
+import { CartProvider } from './src/context/CartContext.jsx';
+// import { CartProvider } from './src/context/CartContext.jsx';
 
 const Drawer = createDrawerNavigator();
 
@@ -15,26 +19,30 @@ export default function App() {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
       <ThemeProvider>
-        <NavigationContainer>
-          <StatusBar
-            backgroundColor="transparent"
-            translucent={true}
-            barStyle="dark-content" // Define o estilo do conteúdo da StatusBar (claro ou escuro)
-          />
+        <CartProvider>
+          <NavigationContainer>
+            <StatusBar
+              backgroundColor="transparent"
+              translucent={true}
+              barStyle="dark-content" // Define o estilo do conteúdo da StatusBar (claro ou escuro)
+            />
 
-          <Drawer.Navigator initialRouteName="Products">
-            <Drawer.Screen
-              name="E-Commerce"
-              component={HomePage}
-              options={{
-                headerRight: () => <CartIconWithNavigation />,
-                title: 'E-Commerce',
-              }} />
-            <Drawer.Screen name="Cart" component={CartPage} />
-          </Drawer.Navigator>
+            <Drawer.Navigator initialRouteName="Products">
+              <Drawer.Screen
+                name="E-Commerce"
+                component={HomePage}
+                options={{
+                  headerRight: () => <CartIconWithNavigation />,
+                  title: 'E-Commerce',
+                }} />
+              <Drawer.Screen name="Cart" component={CartPage} />
+              <Drawer.Screen name="Products" component={ProductPage} />
+            </Drawer.Navigator>
 
-        </NavigationContainer>
+          </NavigationContainer>
+        </CartProvider>
       </ThemeProvider>
+
     </SafeAreaView>
 
   )
