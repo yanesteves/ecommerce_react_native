@@ -1,18 +1,20 @@
 import { useState } from 'react'
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { SafeAreaView, StyleSheet, StatusBar, TouchableOpacity, Text } from 'react-native';
+import './gesture-handler.native';
+
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+
 import Icon from 'react-native-vector-icons/Ionicons'; // Importando o ícone do carrinho
-// import { ThemeProvider } from './src/context/ThemeContext.jsx';
+
 import { HomePage } from './src/pages/Home/Home.jsx';
 import { CartPage } from './src/pages/Cart/Cart.jsx';
 import { ProductPage } from './src/pages/Products/ProductsPage.jsx';
-
-import './gesture-handler.native';
-import { ThemeProvider } from './src/context/ThemeContext.jsx';
-import { CartProvider } from './src/context/CartContext.jsx';
-import { AuthProvider, useAuth } from './src/context/AuthContext.jsx';
 import { Login } from './src/pages/Login/Login.jsx';
+
+import { ThemeProvider } from './src/context/ThemeContext.jsx';
+import { CartProvider, useCart } from './src/context/CartContext.jsx';
+import { AuthProvider, useAuth } from './src/context/AuthContext.jsx';
 // import { CartProvider } from './src/context/CartContext.jsx';
 
 const Drawer = createDrawerNavigator();
@@ -54,10 +56,13 @@ const Navigation = () => {
             component={HomePage}
             options={{
               headerRight: () => <CartIconWithNavigation />,
-              title: 'E-Commerce',
+              title: 'MagaLu',
             }} />
           <Drawer.Screen name="Cart" component={CartPage} />
-          <Drawer.Screen name="Products" component={ProductPage} />
+          <Drawer.Screen name="Products" component={ProductPage} options={{
+            headerRight: () => <CartIconWithNavigation />,
+            title: 'Produtos',
+          }} />
         </Drawer.Navigator> : <Login />}
     </>
   )
@@ -65,7 +70,7 @@ const Navigation = () => {
 
 const CartIconWithNavigation = () => {
   const navigation = useNavigation();
-  const [cartItemCount, setCartItemCount] = useState(3); // Simulação de quantidade de itens no carrinho
+  const { getTotalItems } = useCart()
 
   return (
     <TouchableOpacity
@@ -73,7 +78,7 @@ const CartIconWithNavigation = () => {
       onPress={() => navigation.navigate('Cart')}
     >
       <Icon name="cart-outline" size={24} color="#000" />
-      <Text style={styles.cartCount}>{cartItemCount}</Text>
+      <Text style={styles.cartCount}>{getTotalItems()}</Text>
     </TouchableOpacity>
   );
 };
