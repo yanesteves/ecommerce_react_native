@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, FlatList, Image, Button, StyleSheet } from 'react-native';
 import { useAuth } from '../../context/AuthContext';
+import { useCart } from '../../context/CartContext';
 
 const products = [
   { id: '1', name: 'Camisa', price: 29.99, image: 'https://via.placeholder.com/150' },
@@ -12,6 +13,8 @@ const products = [
 
 export const ProductPage = () => {
   const { logout } = useAuth()
+  const { addItem } = useCart()
+
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredProducts, setFilteredProducts] = useState(products);
 
@@ -27,12 +30,17 @@ export const ProductPage = () => {
     }
   };
 
+  function handleAddCart(item) {
+    addItem(item)
+    alert(`${item.name} adicionado ao carrinho!`)
+  }
+
   const renderProduct = ({ item }) => (
     <View style={styles.card}>
       <Image source={{ uri: item.image }} style={styles.image} />
       <Text style={styles.name}>{item.name}</Text>
       <Text style={styles.price}>R$ {item.price.toFixed(2)}</Text>
-      <Button title="Adicionar ao Carrinho" onPress={() => alert(`${item.name} adicionado ao carrinho!`)} />
+      <Button title="Adicionar ao Carrinho" onPress={() => handleAddCart(item)} />
     </View>
   );
 
