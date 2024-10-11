@@ -25,6 +25,17 @@ export const CartProvider = ({ children }) => {
         // [...existente,  novo]
         setItems(prev => [...prev, item])
     }
+  
+    function removeItem(id) {
+        // const novoCarrinho = items.filter(item => item.id !== id)
+        // setItems(novoCarrinho)
+        setItems((prevItems) => prevItems.filter(item => item.id !== id))
+    }
+
+    function valorTotal() {
+        const total = carrinho.reduce((acc, product) => { return acc + product.price }, 0)
+        return total
+    }
 
     // Clear Cart    
     function clearCart() {
@@ -32,7 +43,7 @@ export const CartProvider = ({ children }) => {
     }
 
     return (
-        <CartContext.Provider value={{ items, getTotalItems, addItem, clearCart }}>
+        <CartContext.Provider value={{ items, getTotalItems, addItem, clearCart, removeItem, valorTotal }}>
             {children}
         </CartContext.Provider>
     )
