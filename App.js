@@ -58,11 +58,11 @@ const Navigation = () => {
               headerRight: () => <CartIconWithNavigation />,
               title: 'MagaLu',
             }} />
-          <Drawer.Screen name="Cart" component={CartPage} />
-          <Drawer.Screen name="Products" component={ProductPage} options={{
+            <Drawer.Screen name="Products" component={ProductPage} options={{
             headerRight: () => <CartIconWithNavigation />,
             title: 'Produtos',
           }} />
+          <Drawer.Screen name="Cart" component={CartPage} />          
         </Drawer.Navigator> : <Login />}
     </>
   )
