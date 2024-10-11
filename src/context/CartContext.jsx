@@ -33,7 +33,7 @@ export const CartProvider = ({ children }) => {
     }
 
     function valorTotal() {
-        const total = carrinho.reduce((acc, product) => { return acc + product.price }, 0)
+        const total = items.reduce((acc, product) => { return acc + product.price }, 0)
         return total
     }
 
